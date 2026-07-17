@@ -1,0 +1,55 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>API reference · Kaper</title><link rel="stylesheet" href="assets/styles.css"></head><body>
+<header class="topbar"><nav class="nav wrap"><a class="brand" href="index.html"><span class="mark">K</span>Kaper</a><button class="menu" aria-label="Open navigation">☰</button><div class="navlinks"><a href="index.html">Overview</a><a href="getting-started.html">Get started</a><a href="concepts.html">Concepts</a><a aria-current="page" href="api.html">API</a><a href="examples.html">Examples</a><a href="https://github.com/kaper-io/kaper">GitHub ↗</a></div></nav></header>
+<main><div class="page-head"><div class="wrap"><span class="status">v1alpha1</span><h1>ResourceCanary API</h1><p class="lead">The practical reference for recommendation, rollout, safety, analysis, persistence, and status fields.</p></div></div><div class="wrap docs-layout"><aside class="toc"><strong>Spec sections</strong><a href="#target">Target</a><a href="#recommendation">Recommendation</a><a href="#refresh">VPA refresh</a><a href="#rollout">Rollout</a><a href="#safety">Safety</a><a href="#analysis">Analysis</a><a href="#persistence">Persistence</a><a href="#status">Status</a></aside><article class="prose">
+<h2 id="target">Target reference</h2><pre><code>targetRef:
+  apiVersion: apps/v1
+  kind: Deployment
+  name: checkout</code></pre><table><thead><tr><th>API version</th><th>Kinds</th></tr></thead><tbody><tr><td><code>apps/v1</code></td><td>Deployment, StatefulSet</td></tr><tr><td><code>argoproj.io/v1alpha1</code></td><td>Rollout</td></tr></tbody></table>
+<h2 id="recommendation">Recommendation</h2><pre><code>recommendation:
+  source: Manual | VPA
+  manual:
+    containers:
+      - name: app
+        resources:
+          requests: { cpu: 500m, memory: 768Mi }
+          limits: { cpu: "1", memory: 1Gi }
+  vpa:
+    name: checkout-vpa
+    selection: Target | LowerBound | UpperBound</code></pre><p>Manual requests must not exceed their corresponding limits. VPA recommendations provide requests; the refresh policy can derive limits.</p>
+<h2 id="refresh">VPA refresh and limit policy</h2><pre><code>refreshPolicy:
+  mode: ManualCapture | ThresholdBased
+  minimumCpuDeltaPercent: 10
+  minimumMemoryDeltaPercent: 10
+  minimumTimeSinceLastValidation: 168h
+  defaultCpuLimitPercentageBump: 0
+  defaultMemoryLimitPercentageBump: 20
+  forceLimitResizing: false</code></pre><p><code>ThresholdBased</code> requires the minimum time to have elapsed and at least one container's CPU or memory delta to meet its threshold. Deltas may increase or decrease.</p><p>A limit bump of 0 makes limit equal request; 20 makes it 120% of request. With <code>forceLimitResizing: false</code>, an existing limit is preserved whenever it already accommodates the new request. These rules only apply to VPA recommendations.</p>
+<h2 id="rollout">Rollout</h2><pre><code>rollout:
+  initialDelay: 5m
+  maxConcurrentResizes: 2
+  podSelection: { strategy: StableHash }
+  steps:
+    - { percent: 10, pause: 10m }
+    - { percent: 50, pause: 30m }
+    - { percent: 100, pause: 1h }</code></pre><p>Steps must be strictly increasing and end at exactly 100%. <code>initialDelay</code> measures pod age since its latest Ready transition.</p>
+<h2 id="safety">Safety</h2><pre><code>safety:
+  minReadyPods: 3
+  requireAllTargetPodsReadyBeforeStarting: true
+  stopIfTargetWorkloadUpdating: true
+  allowSingleReplicaWorkload: false</code></pre>
+<h2 id="analysis">CPU throttling analysis</h2><pre><code>analysis:
+  cpuThrottling:
+    enabled: true
+    thresholdFraction: 0.05
+    window: 5m
+    mode: AnyPod | PercentageOfPods | Average
+    percentageOfPodsThreshold: 30
+    onMetricsUnavailable: Pass | Fail
+    prometheus:
+      url: http://prometheus.monitoring.svc:9090</code></pre><p>The configured pause is a minimum. Analysis waits until every selected pod has spent at least one full analysis window at its resized target.</p>
+<h2 id="persistence">Persistence</h2><pre><code>persistence:
+  mode: AdmissionOnNextPodTemplateChange | Disabled
+  gitOps:
+    enabled: false</code></pre><p><code>Disabled</code> validates live pods but never propagates the result to the workload template. The terminal phase is <code>ValidatedWithoutPersistence</code>.</p>
+<h2 id="status">Selected status fields</h2><table><thead><tr><th>Field</th><th>Purpose</th></tr></thead><tbody><tr><td><code>status.phase</code></td><td>High-level lifecycle state.</td></tr><tr><td><code>recommendation.currentRevision</code></td><td>Hash of the current candidate.</td></tr><tr><td><code>recommendation.validatedRevision</code></td><td>Revision proven across the fleet.</td></tr><tr><td><code>validation.baselineResources</code></td><td>Resources being changed from.</td></tr><tr><td><code>validation.candidateResources</code></td><td>Resources being validated.</td></tr><tr><td><code>validation.pods</code></td><td>Per-pod resize lifecycle.</td></tr><tr><td><code>recommendation.failedRevisions</code></td><td>Sticky deny-list of failed hashes.</td></tr><tr><td><code>conditions</code></td><td>Kubernetes-style decision details.</td></tr></tbody></table><p>For every field and metric, see the repository's <a href="https://github.com/kaper-io/kaper/blob/main/docs/api-reference.md">full source reference</a>.</p>
+</article></div></main><footer><div class="wrap footer-row"><span>Kaper documentation</span><a href="examples.html">Next: examples →</a></div></footer><script src="assets/site.js"></script></body></html>
