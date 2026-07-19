@@ -2,21 +2,21 @@
 <html lang="en">
 <head>
   <meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta name="description" content="Kaper safely validates Kubernetes resource recommendations in production and persists them without an unnecessary rollout.">
-  <title>Kaper — progressive Kubernetes rightsizing</title>
+  <meta name="description" content="Kapr safely validates Kubernetes resource recommendations in production and persists them without an unnecessary rollout.">
+  <title>Kapr — progressive Kubernetes rightsizing</title>
   <link rel="stylesheet" href="assets/styles.css">
 </head>
 <body>
   <header class="topbar"><nav class="nav wrap" aria-label="Main navigation">
-    <a class="brand" href="index.html"><span class="mark">K</span>Kaper</a>
+    <a class="brand" href="index.html"><span class="mark">K</span>Kapr</a>
     <button class="menu" aria-label="Open navigation" aria-expanded="false">☰</button>
-    <div class="navlinks"><a aria-current="page" href="index.html">Overview</a><a href="getting-started.html">Get started</a><a href="concepts.html">Concepts</a><a href="api.html">API</a><a href="examples.html">Examples</a><a href="https://github.com/kaper-io/kaper">GitHub ↗</a></div>
+    <div class="navlinks"><a aria-current="page" href="index.html">Overview</a><a href="getting-started.html">Get started</a><a href="concepts.html">Concepts</a><a href="api.html">API</a><a href="examples.html">Examples</a><a href="https://github.com/kapr-io/kapr">GitHub ↗</a></div>
   </nav></header>
 
   <main>
     <section class="hero"><div class="wrap hero-grid">
-      <div><div class="eyebrow">Kubernetes resource canaries</div><h1>Right-size with evidence, not hope.</h1><p class="lead">Kaper progressively applies CPU and memory recommendations to live pods, observes each step, and persists only what production has proven safe.</p><div class="actions"><a class="button" href="getting-started.html">Install Kaper</a><a class="button secondary" href="concepts.html">See how it works</a></div></div>
-      <div class="terminal" aria-label="Kaper status example"><div class="terminal-bar"><i></i><i></i><i></i></div><pre><span class="prompt">$</span> kubectl get resourcecanary checkout
+      <div><div class="eyebrow">Kubernetes resource canaries</div><h1>Right-size with evidence, not hope.</h1><p class="lead">Kapr progressively applies CPU and memory recommendations to live pods, observes each step, and persists only what production has proven safe.</p><div class="actions"><a class="button" href="getting-started.html">Install Kapr</a><a class="button secondary" href="concepts.html">See how it works</a></div></div>
+      <div class="terminal" aria-label="Kapr status example"><div class="terminal-bar"><i></i><i></i><i></i></div><pre><span class="prompt">$</span> kubectl get resourcecanary checkout
 NAME       PHASE                              STEP
 checkout   ValidationRunning                  25%
 
@@ -26,11 +26,11 @@ checkout   ValidatedAwaitingPersistence      100%
 checkout   Persisted                         100%</pre></div>
     </div></section>
 
-    <section class="section"><div class="wrap"><div class="section-head"><div class="eyebrow">The contract</div><h2>A controlled path from recommendation to rollout</h2><p>Kaper uses Kubernetes' in-place Pod resize API to validate resource changes across a cumulative slice of the fleet.</p></div>
+    <section class="section"><div class="wrap"><div class="section-head"><div class="eyebrow">The contract</div><h2>A controlled path from recommendation to rollout</h2><p>Kapr uses Kubernetes' in-place Pod resize API to validate resource changes across a cumulative slice of the fleet.</p></div>
       <div class="flow"><div class="flow-step"><strong>Capture</strong><span>Manual or VPA recommendation</span></div><div class="flow-step"><strong>Resize</strong><span>Stable pod selection at each step</span></div><div class="flow-step"><strong>Observe</strong><span>Readiness and optional metrics</span></div><div class="flow-step"><strong>Validate</strong><span>Full fleet accepts the revision</span></div><div class="flow-step"><strong>Persist</strong><span>Ride the next natural rollout</span></div></div>
     </div></section>
 
-    <section class="section alt"><div class="wrap"><div class="section-head"><div class="eyebrow">Why Kaper</div><h2>Production safety without rollout churn</h2></div><div class="grid-3">
+    <section class="section alt"><div class="wrap"><div class="section-head"><div class="eyebrow">Why Kapr</div><h2>Production safety without rollout churn</h2></div><div class="grid-3">
       <article class="card"><div class="number">01</div><h3>Progressive by default</h3><p>Move through cumulative percentages such as 10 → 25 → 50 → 100, with deterministic pod selection and explicit pauses.</p></article>
       <article class="card"><div class="number">02</div><h3>Metric-aware</h3><p>Optionally query Prometheus for CPU throttling after each pause and roll back when the candidate breaches policy.</p></article>
       <article class="card"><div class="number">03</div><h3>Deferred persistence</h3><p>Validate against live pods now, then inject resources into the next pod-template update instead of creating a rollout solely for resources.</p></article>
@@ -38,6 +38,6 @@ checkout   Persisted                         100%</pre></div>
 
     <section class="section"><div class="wrap grid-2"><div><div class="eyebrow">Works with your workloads</div><h2>Deployments, StatefulSets, and Argo Rollouts</h2><p class="lead">Use explicit Manual recommendations or consume VPA Target, LowerBound, or UpperBound values. Revision hashes make changes deterministic and supersession safe.</p><a href="api.html">Explore the ResourceCanary API →</a></div><div class="card"><h3>Built-in safeguards</h3><ul><li>Minimum ready pod requirements</li><li>Workload-update detection</li><li>Startup warm-up delay</li><li>Concurrent resize limits</li><li>Sticky failed-revision deny-list</li><li>Rollback to captured baseline</li></ul></div></div></section>
   </main>
-  <footer><div class="wrap footer-row"><span>Kaper · safe, progressive Kubernetes rightsizing</span><span><a href="https://github.com/kaper-io/kaper">Source</a> · <a href="api.html">API reference</a></span></div></footer>
+  <footer><div class="wrap footer-row"><span>Kapr · safe, progressive Kubernetes rightsizing</span><span><a href="https://github.com/kapr-io/kapr">Source</a> · <a href="api.html">API reference</a></span></div></footer>
   <script src="assets/site.js"></script>
 </body></html>
