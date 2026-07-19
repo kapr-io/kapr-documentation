@@ -1,0 +1,27 @@
+# Kapr
+
+> Kapr is a Kubernetes controller for safe, progressive, in-place workload rightsizing. It validates CPU and memory recommendations against live Pods before persisting proven resource changes.
+
+Kapr applies recommendations to a controlled percentage of Pods through the Kubernetes resize subresource, observes each rollout step, rolls back unsafe revisions, and persists validated resources without causing an otherwise unnecessary workload rollout.
+
+## Documentation
+
+- [Overview](https://kapr.io/): Product overview and progressive rightsizing workflow.
+- [Get started](https://kapr.io/getting-started.html): Prerequisites, Helm installation, and a manual ResourceCanary example.
+- [Core concepts](https://kapr.io/concepts.html): Lifecycle, Pod selection, resize semantics, supersession, persistence, and analysis.
+- [API reference](https://kapr.io/api.html): ResourceCanary configuration and status fields.
+- [Examples](https://kapr.io/examples.html): VPA, JVM warm-up, GitOps, and manual recommendation examples.
+
+## Source
+
+- [Kapr repository](https://github.com/kapr-io/kapr): OSS controller source, CRDs, Helm chart, documentation, and examples.
+- [Kapr documentation repository](https://github.com/kapr-io/kapr-documentation): Source for this documentation website.
+
+## Key facts
+
+- Kubernetes API group: `kapr.io/v1alpha1`
+- Primary resource: `ResourceCanary`
+- Supported recommendation sources: Manual and VPA
+- Supported workloads: Deployment, StatefulSet, and Argo Rollout
+- Default persistence mode: `AdmissionOnNextPodTemplateChange`
+- Helm chart: `oci://ghcr.io/kapr-io/charts/kapr`
