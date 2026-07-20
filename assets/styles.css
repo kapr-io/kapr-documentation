@@ -43,6 +43,7 @@ a:focus-visible, button:focus-visible { outline: 3px solid var(--accent); outlin
 
 .hero { padding: 96px 0 72px; overflow: hidden; background: radial-gradient(circle at 82% 15%, rgba(216,243,107,.28), transparent 25%), linear-gradient(180deg, #f2f8f4 0%, var(--paper) 100%); }
 .hero-grid { display: grid; grid-template-columns: 1.15fr .85fr; align-items: center; gap: 72px; }
+.hero-grid > * { min-width: 0; }
 .eyebrow { color: var(--brand); font-weight: 800; text-transform: uppercase; letter-spacing: .12em; font-size: .78rem; }
 h1, h2, h3 { line-height: 1.16; letter-spacing: -.025em; }
 h1 { margin: 12px 0 20px; font-size: clamp(2.75rem, 6vw, 5.4rem); max-width: 850px; }
@@ -55,7 +56,7 @@ h3 { margin: 0 0 10px; font-size: 1.25rem; }
 .button.secondary { color: var(--brand); background: transparent; }
 .button.secondary:hover { color: white; background: var(--brand); }
 
-.terminal { padding: 16px; transform: rotate(1.5deg); border: 1px solid #244a3f; border-radius: 16px; color: #daf4ea; background: var(--code); box-shadow: var(--shadow); }
+.terminal { width: 100%; max-width: 100%; min-width: 0; padding: 16px; overflow: hidden; transform: rotate(1.5deg); border: 1px solid #244a3f; border-radius: 16px; color: #daf4ea; background: var(--code); box-shadow: var(--shadow); }
 .terminal-bar { display: flex; gap: 7px; padding: 2px 0 13px; }
 .terminal-bar i { width: 9px; height: 9px; border-radius: 50%; background: #6d8c83; }
 .terminal pre { max-width: 100%; margin: 0; overflow: auto; color: #dcebe6; }
@@ -133,10 +134,10 @@ footer { padding: 35px 0; color: var(--muted); border-top: 1px solid var(--line)
   .navlinks { inset-block-start: 62px; max-height: calc(100dvh - 62px); padding-inline: 14px; }
   .hero { padding: 48px 0 52px; }
   .hero-grid { gap: 34px; }
-  .hero h1 { max-width: 100%; margin-top: 10px; font-size: clamp(1.75rem, 8vw, 2.25rem); line-height: 1.08; }
+  .hero h1 { width: 100%; max-width: 100%; margin-top: 10px; font-size: clamp(1.6rem, 7.25vw, 2rem); line-height: 1.06; }
   .hero-title-line { display: block; }
   h2 { font-size: clamp(1.75rem, 9vw, 2.25rem); }
-  .lead { font-size: 1.05rem; }
+  .hero .lead { width: 100%; max-width: 100%; font-size: 1rem; }
   .section { padding: 54px 0; }
   .section-head { margin-bottom: 28px; }
   .page-head { padding: 48px 0 38px; }
@@ -148,8 +149,8 @@ footer { padding: 35px 0; color: var(--muted); border-top: 1px solid var(--line)
   pre { padding: 16px; border-radius: 9px; }
   th, td { min-width: 130px; padding: 10px 12px; }
   .callout { padding: 15px 16px; }
-  .hero .actions { display: grid; width: 100%; grid-template-columns: minmax(0, 1fr); }
-  .hero .actions .button { width: 100%; min-width: 0; min-height: 48px; padding-inline: 14px; white-space: normal; text-align: center; }
+  .hero .actions { display: grid; width: 100%; max-width: 100%; min-width: 0; grid-template-columns: minmax(0, 1fr); }
+  .hero .actions .button { width: auto; max-width: 100%; min-width: 0; min-height: 48px; padding-inline: 12px; white-space: normal; text-align: center; }
   footer { padding: 28px 0; }
   .footer-row { gap: 12px; }
 }
